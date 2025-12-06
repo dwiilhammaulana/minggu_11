@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "765588215112",
+    "project_id": "tutorialkelas-224a2",
+    "storage_bucket": "tutorialkelas-224a2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765588215112:android:5c95781b834c20b8768f7d",
+        "android_client_info": {
+          "package_name": "com.example.flutter_notes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmXuVfoL6Hdlw7FubsCNvmue1toZZjtiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
