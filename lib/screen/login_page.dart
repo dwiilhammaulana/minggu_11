@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class MyLogin extends StatelessWidget {
   const MyLogin({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: LoginPage(),
-    );
+    return const LoginPage();
   }
 }
 
@@ -30,30 +29,43 @@ class _LoginPageState extends State<LoginPage> {
 
   // Function login (contoh sederhana)
   void _login() async {
+  setState(() {
+    _isLoading = true;
+    _error = null;
+  });
+
+  try {
+    // Login Firebase Authentication
+    UserCredential credential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+      email: emailCtrl.text.trim(),
+      password: passCtrl.text.trim(),
+    );
+
+    // LOGIN BERHASIL
     setState(() {
-      _isLoading = true;
-      _error = null;
+      _isLoading = false;
     });
 
-    await Future.delayed(const Duration(seconds: 2)); // simulasi loading
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Login berhasil! UID: ${credential.user!.uid}")),
+    );
 
-    if (emailCtrl.text == "admin" && passCtrl.text == "123") {
-      setState(() {
-        _error = null;
-        _isLoading = false;
-      });
+  } on FirebaseAuthException catch (e) {
+    // LOGIN GAGAL
+    setState(() {
+      _isLoading = false;
+      _error = e.message; // pesan error dari firebase
+    });
 
-      // Contoh sukses
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Login berhasil!")),
-      );
-    } else {
-      setState(() {
-        _error = "Email atau password salah";
-        _isLoading = false;
-      });
-    }
+  } catch (e) {
+    setState(() {
+      _isLoading = false;
+      _error = "Terjadi kesalahan: $e";
+    });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
